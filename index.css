@@ -2,6 +2,10 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
   background-color: #fefefe;
@@ -110,6 +114,8 @@ body {
 .hero {
   text-align: center;
   margin-bottom: 80px;
+  opacity: 0;
+  animation: hero-fade-in 0.35s ease-out forwards;
 }
 
 .hero-content {
@@ -119,6 +125,15 @@ body {
   gap: 24px;
   margin-top: 110px;
   margin-bottom: 90px;
+}
+
+@keyframes hero-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .hero-badge-shell {
@@ -183,6 +198,7 @@ body {
   align-items: center;
   justify-content: center;
   gap: 7px;
+  margin-top: 15px;
   padding: 10px 20px;
   border-radius: 10px;
   background-color: #a4a0fd;
@@ -202,6 +218,8 @@ body {
   position: relative;
   width: 18px;
   height: 16px;
+  overflow: hidden; /* clip arrows to a fixed viewport */
+  display: inline-block;
 }
 
 .hero-cta-arrows::before,
@@ -209,29 +227,38 @@ body {
   content: "→";
   position: absolute;
   top: 50%;
-  transform: translateY(-50%);
-  transition: transform 0.4s ease, opacity 0.4s ease;
+  left: 0;
+  line-height: 1;
+  transition: transform 0.35s ease;
 }
 
 .hero-cta-arrows::before {
-  left: 2px;
-  opacity: 1;
+  transform: translateY(-50%) translateX(0);
 }
 
 .hero-cta-arrows::after {
-  left: -14px;
-  opacity: 0;
+  transform: translateY(-50%) translateX(-18px);
 }
 
 .hero-cta:hover .hero-cta-arrows::before {
-  transform: translate(8px, -50%);
-  opacity: 0;
+  transform: translateY(-50%) translateX(18px);
 }
 
 .hero-cta:hover .hero-cta-arrows::after {
-  transform: translate(16px, -50%);
-  opacity: 1;
+  transform: translateY(-50%) translateX(0);
 }
+
+/* Arrow fade toggle (OFF by default):
+   - Keep opacity lines commented for no fade.
+   - Uncomment all four opacity lines below to turn fade ON. */
+
+/*
+.hero-cta-arrows::before { opacity: 1; }
+.hero-cta-arrows::after { opacity: 0; }
+.hero-cta:hover .hero-cta-arrows::before { opacity: 0; }
+.hero-cta:hover .hero-cta-arrows::after { opacity: 1; }
+*/
+
 
 .hero-image {
   width: 100%;
@@ -249,6 +276,7 @@ body {
   flex-direction: column;
   gap: 32px;
   margin-bottom: 80px;
+  scroll-margin-top: 120px;
 }
 
 .feature-card {
@@ -443,6 +471,7 @@ body {
 .faq {
   margin-top: 100px;
   margin-bottom: 100px;
+  scroll-margin-top: 120px;
 }
 
 .faq-title {
@@ -670,6 +699,7 @@ body {
 
 .reveal-on-scroll.is-visible {
   animation: reveal-in 0.65s ease forwards;
+  animation-delay: var(--reveal-delay, 0ms);
 }
 
 @keyframes reveal-in {

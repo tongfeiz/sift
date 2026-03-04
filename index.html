@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="initial-scale=1, width=device-width">
   <title>sift - planning for adhd</title>
-  <link rel="icon" type="image/png" href="photo&icon/siftlogo.png" />
+  <link rel="icon" type="image/png" href="photo&icon/siftlogosmall.png" />
   <link rel="stylesheet" href="./index.css" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=SF+Pro:wght@400;500;600&display=swap" />
 </head>
@@ -13,27 +13,29 @@
   <nav class="nav">
     <div class="nav-inner">
       <div class="nav-logo">
-        <img class="nav-logo-icon" src="photo&icon/siftlogo.png" alt="sift" />
+        <img class="nav-logo-icon" src="photo&icon/siftlogosmall.png" alt="sift" />
         <span class="nav-logo-text">sift</span>
       </div>
       <div class="nav-links">
         <a href="#features" class="nav-link">Features</a>
-        <a href="#" class="nav-link">Login</a>
+        <a href="#faq" class="nav-link">FAQs</a>
         <a href="#" class="nav-btn">Sign Up</a>
       </div>
     </div>
   </nav>
 
   <main class="page">
-    <!-- Her o -->
+    <!-- Hero -->
     <section class="hero">
       <div class="hero-content">
         <div class="hero-badge-shell">
           <div class="hero-badge">
-          <img class="hero-badge-icon" src="/photo&icon/siftlogo.png" alt="" />
+          <img class="hero-badge-icon" src="/photo&icon/siftlogosmall.png" alt="" />
           <span class="hero-badge-name">sift</span>
           <span class="hero-badge-version">
             <span class="hero-badge-version-char">v</span>
+            <span class="hero-badge-version-char">0</span>
+            <span class="hero-badge-version-char">.</span>
             <span class="hero-badge-version-char">0</span>
             <span class="hero-badge-version-char">.</span>
             <span class="hero-badge-version-char">1</span>
@@ -44,7 +46,7 @@
         <p class="hero-subtitle">Schedule and plan by providing a conversational environment that turns mental clutter into clarity.</p>
         <a href="#" class="hero-cta"><span class="hero-cta-text">Try Sift</span><span class="hero-cta-arrows" aria-hidden="true"></span></a>
       </div>
-      <img class="hero-image" src="/photo&icon/landingplaceholder.png" alt="sift app calendar view" />
+      <img class="hero-image" src="/photo&icon/1landingplaceholder.png" alt="sift app calendar view" />
     </section>
 
     <!-- Features -->
@@ -306,7 +308,7 @@
     </section>
 
     <!-- FAQ -->
-    <section class="faq">
+    <section id="faq" class="faq">
       <h2 class="faq-title">Frequently Asked Questions</h2>
       <div class="faq-list">
         <div class="faq-item">
@@ -379,7 +381,7 @@
     <div class="footer-inner">
       <div class="footer-left">
         <div class="footer-logo">
-          <img class="footer-logo-icon" src="photo&icon/siftlogo.png" alt="sift" />
+          <img class="footer-logo-icon" src="photo&icon/siftlogosmall.png" alt="sift" />
           <span class="footer-logo-text">sift</span>
         </div>
         <p class="footer-tagline">Clarity, one conversation at a time.</p>
@@ -424,10 +426,12 @@
         function show(el) { el.classList.remove(h); }
 
         setTimeout(function () { show(name); }, 200);
-        setTimeout(function () { show(version); show(chars[0]); }, 400);
-        setTimeout(function () { show(chars[1]); }, 475);
-        setTimeout(function () { show(chars[2]); }, 550);
-        setTimeout(function () { show(chars[3]); }, 625);
+        chars.forEach(function (char, idx) {
+          setTimeout(function () {
+            if (idx === 0) show(version);
+            show(char);
+          }, 400 + idx * 75);
+        });
       }
 
       // FAQ accordion
@@ -451,7 +455,10 @@
       // Scroll reveal transitions
       // Keep header + hero content visible; reveal hero image first on scroll,
       // then reveal subsequent sections as they get close to viewport.
-      var revealTargets = document.querySelectorAll('.hero-image, .feature-card, .testimonials-title, .testimonials-carousel, .faq, .cta-section, .footer-inner, .footer-bottom');
+      var revealTargets = document.querySelectorAll('.hero-image, .feature-card, .testimonials-title, .testimonials-carousel, .faq-title, .faq-item, .cta-section, .footer-inner, .footer-bottom');
+      items.forEach(function (item, idx) {
+        item.style.setProperty('--reveal-delay', (idx * 90) + 'ms');
+      });
       revealTargets.forEach(function (el) {
         el.classList.add('reveal-on-scroll');
       }); 
