@@ -734,22 +734,8 @@ body {
   }
 }
 
-/* Responsive: stack features and testimonials on small screens */
+/* Responsive: tablet */
 @media (max-width: 900px) {
-  .feature-card,
-  .feature-card-reverse {
-    grid-template-columns: 1fr;
-  }
-
-  .feature-card-reverse .feature-content,
-  .feature-card-reverse .feature-visual {
-    order: unset;
-  }
-
-  .feature-visual {
-    min-height: 240px;
-  }
-
   .footer-inner {
     flex-direction: column;
     gap: 32px;
@@ -771,16 +757,56 @@ body {
     font-size: 22px;
   }
 
+  .feature-content {
+    padding: 32px 28px;
+    gap: 18px;
+  }
+
   .feature-title {
-    font-size: 24px;
+    font-size: 21px;
   }
 
   .feature-desc {
-    font-size: 20px;
+    font-size: 16px;
+  }
+
+  .feature-list {
+    font-size: 14px;
+    gap: 14px;
+  }
+
+  .feature-list li::before {
+    width: 18px;
+    height: 18px;
   }
 }
 
+/* Responsive: mobile — stack features (info on top, visual on bottom) */
 @media (max-width: 480px) {
+  .nav-link {
+    display: none;
+  }
+
+  .nav-btn {
+    white-space: nowrap;
+  }
+
+  .feature-card,
+  .feature-card-reverse {
+    grid-template-columns: 1fr;
+  }
+
+  .feature-card .feature-content,
+  .feature-card-reverse .feature-content {
+    order: 1;
+  }
+
+  .feature-card .feature-visual,
+  .feature-card-reverse .feature-visual {
+    order: 2;
+    min-height: 240px;
+  }
+
   .hero-title,
   .testimonials-title,
   .faq-title,
