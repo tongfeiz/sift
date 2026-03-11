@@ -432,6 +432,67 @@
   </footer>
 
   <script>
+    // ─── Smooth inertial lerp scrolling (from test.html) ─────
+    (function () {
+      document.documentElement.style.scrollBehavior = 'auto';
+      var targetScrollY = window.scrollY || 0;
+      var currentScrollY = targetScrollY;
+      var lerpFactor = 0.06;
+      var maxScroll = function () {
+        return Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+      };
+
+      window.addEventListener('wheel', function (e) {
+        e.preventDefault();
+        targetScrollY = Math.max(0, Math.min(targetScrollY + e.deltaY, maxScroll()));
+      }, { passive: false });
+
+      var touchStartY = 0;
+      window.addEventListener('touchstart', function (e) {
+        touchStartY = e.touches[0].clientY;
+      }, { passive: true });
+      window.addEventListener('touchmove', function (e) {
+        e.preventDefault();
+        var dy = touchStartY - e.touches[0].clientY;
+        touchStartY = e.touches[0].clientY;
+        targetScrollY = Math.max(0, Math.min(targetScrollY + dy * 2, maxScroll()));
+      }, { passive: false });
+
+      window.addEventListener('keydown', function (e) {
+        var step = window.innerHeight * 0.08;
+        if (e.key === 'ArrowDown' || e.key === 'PageDown') {
+          targetScrollY = Math.min(targetScrollY + step, maxScroll());
+        }
+        if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+          targetScrollY = Math.max(targetScrollY - step, 0);
+        }
+      });
+
+      var scrollCausedByUs = false;
+      window.addEventListener('scroll', function () {
+        if (scrollCausedByUs) {
+          scrollCausedByUs = false;
+          return;
+        }
+        targetScrollY = currentScrollY = window.scrollY;
+      }, { passive: true });
+
+      function tick() {
+        currentScrollY += (targetScrollY - currentScrollY) * lerpFactor;
+        if (Math.abs(targetScrollY - currentScrollY) < 0.05) {
+          currentScrollY = targetScrollY;
+        }
+        scrollCausedByUs = true;
+        window.scrollTo(0, currentScrollY);
+        requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+
+      window.addEventListener('load', function () {
+        targetScrollY = currentScrollY = window.scrollY;
+      });
+    })();
+
     (function () {
       var h = 'hero-badge-hidden';
       var name = document.querySelector('.hero-badge-name');
